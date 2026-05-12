@@ -1,0 +1,666 @@
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyDWtRQ7mdd4GzuhhQlGsZu0-cHxKb-5Kko",
+    authDomain: "dell-ai-competition.firebaseapp.com",
+    databaseURL: "https://dell-ai-competition-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "dell-ai-competition",
+    storageBucket: "dell-ai-competition.firebasestorage.app",
+    messagingSenderId: "742401229806",
+    appId: "1:742401229806:web:a925cfae4a3365dca544ff",
+    measurementId: "G-723WR3GYXW"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+                        <!DOCTYPE html>
+                        <html lang="en">
+                        <head>
+                            <meta charset="UTF-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+							<style>
+								body {
+									background-color: white; /* Ensure the iframe has a white background */
+								}
+
+								
+							</style>
+                        </head>
+                        <body>
+                            <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dell AI Readiness Competition</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; color: #1a1a2e; }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, #00467F, #0076CE);
+      color: white; padding: 30px 20px; text-align: center;
+    }
+    header h1 { font-size: 2rem; letter-spacing: 1px; }
+    header p  { font-size: 1rem; opacity: 0.85; margin-top: 6px; }
+
+    /* PHASE BANNER */
+    .phase-banner {
+      text-align: center; padding: 14px;
+      font-weight: bold; font-size: 1rem;
+      letter-spacing: 0.5px; color: white;
+    }
+    .phase-banner.phase1 { background: #0076CE; }
+    .phase-banner.phase2 { background: #16a34a; }
+
+    /* FILTERS */
+    .filters {
+      display: flex; justify-content: center;
+      flex-wrap: wrap; gap: 10px;
+      padding: 16px; background: #fff;
+      border-bottom: 1px solid #ddd;
+    }
+    .filters select, .filters input {
+      padding: 8px 14px; border-radius: 6px;
+      border: 1px solid #ccc; font-size: 0.9rem;
+    }
+
+    /* GRID */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px; padding: 24px;
+      max-width: 1400px; margin: auto;
+    }
+
+    /* CARD */
+    .card {
+      background: white; border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      padding: 20px; display: flex;
+      flex-direction: column; gap: 10px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0,118,206,0.15);
+    }
+
+    /* RANK BADGE */
+    .rank-badge {
+      position: absolute; top: -10px; left: -10px;
+      background: #0076CE; color: white;
+      font-weight: bold; font-size: 0.85rem;
+      padding: 4px 10px; border-radius: 20px;
+    }
+    .rank-badge.gold   { background: #FFD700; color: #333; }
+    .rank-badge.silver { background: #C0C0C0; color: #333; }
+    .rank-badge.bronze { background: #CD7F32; color: white; }
+
+    /* TOP 20 HIGHLIGHT */
+    .card.top20 { border: 2px solid #FFD700; }
+    .top20-tag {
+      background: #FFD700; color: #333;
+      font-size: 0.75rem; font-weight: bold;
+      padding: 3px 10px; border-radius: 20px;
+      display: inline-block; margin-bottom: 4px;
+    }
+
+    /* CARD CONTENT */
+    .card h3 { font-size: 1rem; color: #00467F; }
+    .card .meta {
+      font-size: 0.8rem; color: #666;
+      display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .badge {
+      background: #e8f4fd; color: #0076CE;
+      padding: 3px 10px; border-radius: 20px;
+      font-size: 0.75rem; font-weight: 600;
+    }
+    .badge.leader { background: #f0fdf4; color: #16a34a; }
+    .card p { font-size: 0.85rem; color: #444; line-height: 1.5; }
+
+    /* SCORES ROW */
+    .scores {
+      display: flex; justify-content: space-between;
+      font-size: 0.8rem; color: #555;
+      background: #f8fafc; padding: 8px 12px;
+      border-radius: 8px;
+    }
+    .scores span { font-weight: bold; color: #00467F; }
+
+    /* UPVOTE BUTTON */
+    .upvote-btn {
+      display: flex; align-items: center;
+      justify-content: center; gap: 8px;
+      background: #0076CE; color: white;
+      border: none; border-radius: 8px;
+      padding: 10px; font-size: 0.95rem;
+      font-weight: bold; cursor: pointer;
+      transition: background 0.2s; margin-top: auto;
+    }
+    .upvote-btn:hover   { background: #005fa3; }
+    .upvote-btn.voted   {
+      background: #e8f4fd; color: #0076CE;
+      border: 2px solid #0076CE; cursor: not-allowed;
+    }
+    .upvote-btn.closed  {
+      background: #e5e7eb; color: #9ca3af;
+      cursor: not-allowed;
+    }
+
+    /* JUDGE SCORE PANEL — Phase 2 Only */
+    .judge-panel {
+      background: #f0fdf4; border: 1px solid #86efac;
+      border-radius: 8px; padding: 12px;
+      display: none; flex-direction: column; gap: 8px;
+    }
+    .judge-panel h4 {
+      color: #16a34a; font-size: 0.85rem;
+      font-weight: bold;
+    }
+    .judge-panel label {
+      font-size: 0.78rem; color: #555;
+    }
+    .judge-panel input[type=range] { width: 100%; }
+    .judge-panel .score-display {
+      text-align: center; font-size: 1.2rem;
+      font-weight: bold; color: #16a34a;
+    }
+    .submit-score-btn {
+      background: #16a34a; color: white;
+      border: none; border-radius: 6px;
+      padding: 8px; font-weight: bold;
+      cursor: pointer; font-size: 0.85rem;
+    }
+    .submit-score-btn:hover { background: #15803d; }
+
+    /* LEADERBOARD TABLE */
+    .table-section {
+      max-width: 1400px; margin: 20px auto;
+      padding: 0 24px 40px;
+    }
+    .table-section h2 {
+      font-size: 1.2rem; color: #00467F; margin-bottom: 12px;
+    }
+    table {
+      width: 100%; border-collapse: collapse;
+      background: white; border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    th {
+      background: #00467F; color: white;
+      padding: 12px 16px; text-align: left;
+      font-size: 0.85rem;
+    }
+    td {
+      padding: 11px 16px; font-size: 0.85rem;
+      border-bottom: 1px solid #eee;
+    }
+    tr:hover td { background: #f0f7ff; }
+
+    /* LOCKED OVERLAY — Phase 2 columns hidden in Phase 1 */
+    .locked-col {
+      color: #ccc; font-style: italic;
+      text-align: center;
+    }
+
+    /* ADMIN PANEL */
+    .admin-section {
+      max-width: 500px; margin: 20px auto;
+      background: #fff3cd; border: 1px solid #ffc107;
+      border-radius: 10px; padding: 20px;
+      text-align: center;
+    }
+    .admin-section h3 { color: #856404; margin-bottom: 10px; }
+    .admin-btn {
+      padding: 10px 24px; border: none;
+      border-radius: 8px; font-weight: bold;
+      font-size: 0.9rem; cursor: pointer; margin: 6px;
+    }
+    .admin-btn.phase1-btn { background: #0076CE; color: white; }
+    .admin-btn.phase2-btn { background: #16a34a; color: white; }
+
+    footer {
+      text-align: center; padding: 16px;
+      background: #00467F;
+      color: rgba(255,255,255,0.7); font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🏆 Dell AI Readiness Competition</h1>
+  <p>Vote for the best AskDell assistants & micro-agents built by your colleagues</p>
+</header>
+
+<!-- PHASE INDICATOR BANNER -->
+<div class="phase-banner phase1" id="phaseBanner">
+  🗳️ PHASE 1 — Community Upvoting is OPEN · Cast your vote!
+</div>
+
+<!-- FILTERS -->
+<div class="filters">
+  <select id="filterLeader" onchange="renderAll()">
+    <option value="">All L6 Leaders</option>
+    <option>Jason Kim</option>
+    <option>Chen Cathy</option>
+    <option>Shawn Chu</option>
+    <option>Hyunwoo Chung</option>
+    <option>Rishi Nag</option>
+    <option>Joao Felipe</option>
+  </select>
+  <select id="filterCategory" onchange="renderAll()">
+    <option value="">All Categories</option>
+    <option>Productivity & Automation</option>
+    <option>Cost Savings</option>
+    <option>Customer Experience</option>
+    <option>Innovation & New Capabilities</option>
+  </select>
+  <select id="sortBy" onchange="renderAll()">
+    <option value="votes">Sort by Upvotes</option>
+    <option value="judge">Sort by Judge Score</option>
+    <option value="total">Sort by Total Score</option>
+  </select>
+  <input type="text" id="searchBox"
+         placeholder="🔍 Search ideas..."
+         oninput="renderAll()"/>
+</div>
+
+<!-- CARDS -->
+<div class="grid" id="cardsGrid"></div>
+
+<!-- LEADERBOARD TABLE -->
+<div class="table-section">
+  <h2 id="tableTitle">📊 Live Upvote Leaderboard</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Idea Title</th>
+        <th>L6 Leader</th>
+        <th>Category</th>
+        <th>👍 Upvotes</th>
+        <th id="judgeHeader">⭐ Judge Score</th>
+        <th id="totalHeader">🏆 Total</th>
+      </tr>
+    </thead>
+    <tbody id="leaderTable"></tbody>
+  </table>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-section" id="adminPanel" style="display:none;">
+  <h3>🔐 Admin Controls</h3>
+  <p style="font-size:0.85rem; color:#856404; margin-bottom:10px;">
+    Switch competition phase. This updates for ALL users instantly.
+  </p>
+  <button class="admin-btn phase1-btn"
+          onclick="setPhase(1)">
+    🗳️ Set Phase 1 — Upvoting Only
+  </button>
+  <button class="admin-btn phase2-btn"
+          onclick="setPhase(2)">
+    ⭐ Set Phase 2 — Open Judge Scoring
+  </button>
+</div>
+
+<footer>Dell AI Readiness Program · Powered by AskDell · 2025</footer>
+
+<!-- ═══════════════ FIREBASE + LOGIC ═══════════════ -->
+<script type="module">
+  import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, runTransaction, onValue, set, get }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  /* ── PASTE YOUR FIREBASE CONFIG HERE ── */
+  const firebaseConfig = {
+    apiKey:            "YOUR_API_KEY",
+    authDomain:        "dell-ai-competition.firebaseapp.com",
+    databaseURL:       "https://dell-ai-competition-default-rtdb.firebaseio.com",
+    projectId:         "dell-ai-competition",
+    storageBucket:     "dell-ai-competition.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId:             "YOUR_APP_ID"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db  = getDatabase(app);
+
+  /* ══════════════════════════════════════
+     SUBMISSIONS — Replace with real data
+     judgeScore starts null until Phase 2
+  ══════════════════════════════════════ */
+  window.submissions = [
+    { id:"idea001", title:"AI Ticket Auto-Router",
+      leader:"Jason Kim",
+      category:"Productivity & Automation",
+      problem:"Support tickets routed manually, causing 4hr avg delay.",
+      judgeScore: null },
+    { id:"idea002", title:"Smart Employee Onboarding Agent",
+      leader:"Rishi Nag",
+      category:"Customer Experience",
+      problem:"New hires spend 3 days navigating HR docs manually.",
+      judgeScore: null },
+    { id:"idea003", title:"Vendor Cost Analyzer",
+      leader:"Shawn Chu",
+      category:"Cost Savings",
+      problem:"No automated way to flag vendor invoice anomalies.",
+      judgeScore: null },
+    { id:"idea004", title:"AI Meeting Summarizer",
+      leader:"Chen Cathy",
+      category:"Productivity & Automation",
+      problem:"Teams spend 2hrs/week manually writing meeting notes.",
+      judgeScore: null },
+    { id:"idea005", title:"Predictive Churn Detector",
+      leader:"Hyunwoo Chung",
+      category:"Innovation & New Capabilities",
+      problem:"No early warning system for at-risk enterprise accounts.",
+      judgeScore: null },
+    { id:"idea006", title:"Supply Chain Risk Monitor",
+      leader:"Joao Felipe",
+      category:"Cost Savings",
+      problem:"Supplier delays discovered too late to re-route orders.",
+      judgeScore: null }
+  ];
+
+  /* ══════════════════════════════════════
+     STATE
+  ══════════════════════════════════════ */
+  window.voteCounts  = {};
+  window.judgScores  = {};
+  window.currentPhase = 1;
+  window.top20Ids     = [];
+
+  /* ══════════════════════════════════════
+     ADMIN — Check URL param ?admin=true
+  ══════════════════════════════════════ */
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get("admin") === "true") {
+    document.getElementById("adminPanel").style.display = "block";
+  }
+
+  /* ══════════════════════════════════════
+     SET PHASE (Admin only)
+  ══════════════════════════════════════ */
+  window.setPhase = function(phase) {
+    set(ref(db, "config/phase"), phase).then(() => {
+      if (phase === 2) {
+        // Auto-identify Top 20 by votes and store in Firebase
+        const sorted = [...window.submissions]
+          .map(s => ({
+            id: s.id,
+            votes: window.voteCounts[s.id] || 0
+          }))
+          .sort((a, b) => b.votes - a.votes)
+          .slice(0, 20)
+          .map(s => s.id);
+
+        set(ref(db, "config/top20"), sorted);
+      }
+      alert(`✅ Competition switched to Phase ${phase}!`);
+    });
+  };
+
+  /* ══════════════════════════════════════
+     LISTEN — Phase config
+  ══════════════════════════════════════ */
+  onValue(ref(db, "config/phase"), (snap) => {
+    window.currentPhase = snap.val() || 1;
+    renderAll();
+    updatePhaseBanner();
+  });
+
+  onValue(ref(db, "config/top20"), (snap) => {
+    window.top20Ids = snap.val() || [];
+    renderAll();
+  });
+
+  /* ══════════════════════════════════════
+     LISTEN — Votes & Judge Scores
+  ══════════════════════════════════════ */
+  onValue(ref(db, "votes"), (snap) => {
+    window.voteCounts = snap.val() || {};
+    renderAll();
+  });
+
+  onValue(ref(db, "judgeScores"), (snap) => {
+    window.judgScores = snap.val() || {};
+    renderAll();
+  });
+
+  /* ══════════════════════════════════════
+     UPVOTE HANDLER
+  ══════════════════════════════════════ */
+  window.handleUpvote = function(ideaId) {
+    if (window.currentPhase !== 1) return;
+    const voted = JSON.parse(localStorage.getItem("voted") || "{}");
+    if (voted[ideaId]) return;
+
+    runTransaction(ref(db, `votes/${ideaId}`),
+      (current) => (current || 0) + 1
+    ).then(() => {
+      voted[ideaId] = true;
+      localStorage.setItem("voted", JSON.stringify(voted));
+    });
+  };
+
+  /* ══════════════════════════════════════
+     JUDGE SCORE SUBMIT (Phase 2)
+  ══════════════════════════════════════ */
+  window.submitJudgeScore = function(ideaId) {
+    const val = parseInt(
+      document.getElementById(`slider-${ideaId}`).value
+    );
+    set(ref(db, `judgeScores/${ideaId}`), val).then(() => {
+      alert(`✅ Score of ${val} submitted for ${ideaId}`);
+    });
+  };
+
+  window.updateSliderDisplay = function(ideaId) {
+    const val = document.getElementById(`slider-${ideaId}`).value;
+    document.getElementById(`sliderVal-${ideaId}`).textContent = val;
+  };
+
+  /* ══════════════════════════════════════
+     PHASE BANNER UPDATE
+  ══════════════════════════════════════ */
+  function updatePhaseBanner() {
+    const banner = document.getElementById("phaseBanner");
+    if (window.currentPhase === 1) {
+      banner.className = "phase-banner phase1";
+      banner.textContent =
+        "🗳️ PHASE 1 — Community Upvoting is OPEN · Cast your vote!";
+      document.getElementById("tableTitle").textContent =
+        "📊 Live Upvote Leaderboard";
+      document.getElementById("judgeHeader").textContent =
+        "⭐ Judge Score";
+      document.getElementById("totalHeader").textContent =
+        "🏆 Total";
+    } else {
+      banner.className = "phase-banner phase2";
+      banner.textContent =
+        "⭐ PHASE 2 — Top 20 Finalists! Judge Scoring is now OPEN";
+      document.getElementById("tableTitle").textContent =
+        "🏆 Finals Leaderboard — Top 20 Ideas";
+      document.getElementById("judgeHeader").textContent =
+        "⭐ Judge Score";
+      document.getElementById("totalHeader").textContent =
+        "🏆 Combined Total";
+    }
+  }
+
+  /* ══════════════════════════════════════
+     RENDER CARDS + TABLE
+  ══════════════════════════════════════ */
+  window.renderAll = function() {
+    const filterLeader   = document.getElementById("filterLeader").value;
+    const filterCategory = document.getElementById("filterCategory").value;
+    const sortBy         = document.getElementById("sortBy").value;
+    const search         = document.getElementById("searchBox")
+                                   .value.toLowerCase();
+    const voted          = JSON.parse(
+                             localStorage.getItem("voted") || "{}"
+                           );
+    const phase          = window.currentPhase;
+
+    let data = window.submissions.map(s => {
+      const votes      = window.voteCounts[s.id] || 0;
+      const judgeScore = window.judgScores[s.id]  || null;
+      const isTop20    = window.top20Ids.includes(s.id);
+      const total      = judgeScore !== null
+        ? Math.round((votes * 0.4) + (judgeScore * 0.6))
+        : null;
+      return { ...s, votes, judgeScore, isTop20, total };
+    });
+
+    // In Phase 2, only show Top 20
+    if (phase === 2) {
+      data = data.filter(s => s.isTop20);
+    }
+
+    // Filter & Search
+    if (filterLeader)
+      data = data.filter(s => s.leader === filterLeader);
+    if (filterCategory)
+      data = data.filter(s => s.category === filterCategory);
+    if (search)
+      data = data.filter(s =>
+        s.title.toLowerCase().includes(search) ||
+        s.problem.toLowerCase().includes(search)
+      );
+
+    // Sort
+    data.sort((a, b) =>
+      sortBy === "votes" ? b.votes - a.votes :
+      sortBy === "judge" ? (b.judgeScore||0) - (a.judgeScore||0) :
+      (b.total||0) - (a.total||0)
+    );
+
+    const medals = ["🥇","🥈","🥉"];
+    const rankCls = ["gold","silver","bronze"];
+
+    /* ── CARDS ── */
+    document.getElementById("cardsGrid").innerHTML =
+      data.map((s, i) => `
+        <div class="card ${s.isTop20 && phase===2 ? 'top20' : ''}">
+          <div class="rank-badge ${rankCls[i]||''}">
+            ${i < 3 ? medals[i] : '#'+(i+1)}
+          </div>
+          ${s.isTop20 && phase===2
+            ? '<span class="top20-tag">🏅 TOP 20 FINALIST</span>'
+            : ''}
+          <h3>${s.title}</h3>
+          <div class="meta">
+            <span class="badge leader">👤 ${s.leader}</span>
+            <span class="badge">${s.category}</span>
+          </div>
+          <p>${s.problem}</p>
+
+          <!-- SCORES — always show votes; judge only Phase 2 -->
+          <div class="scores">
+            <div>👍 Upvotes <span>${s.votes}</span></div>
+            ${phase === 2 && s.judgeScore !== null
+              ? `<div>⭐ Judge <span>${s.judgeScore}/100</span></div>
+                 <div>🏆 Total <span>${s.total}</span></div>`
+              : phase === 2
+              ? `<div>⭐ Judge <span>Pending...</span></div>`
+              : `<div style="color:#ccc;font-style:italic;font-size:0.75rem;">
+                   Judge scoring opens after Phase 1
+                 </div>`
+            }
+          </div>
+
+          <!-- UPVOTE BUTTON — Phase 1 only -->
+          ${phase === 1 ? `
+            <button
+              class="upvote-btn ${voted[s.id] ? 'voted' : ''}"
+              onclick="handleUpvote('${s.id}')"
+              ${voted[s.id] ? 'disabled' : ''}>
+              ${voted[s.id] ? '✅ Voted!' : '👍 Upvote This Idea'}
+            </button>
+          ` : `
+            <button class="upvote-btn closed" disabled>
+              🔒 Voting Closed — Phase 2 Judging
+            </button>
+          `}
+
+          <!-- JUDGE PANEL — Phase 2 only, Top 20 only -->
+          ${phase === 2 && s.isTop20 ? `
+            <div class="judge-panel" style="display:flex;">
+              <h4>⭐ Judge Scoring Panel</h4>
+              <label>
+                Score: <strong id="sliderVal-${s.id}">
+                  ${s.judgeScore || 50}
+                </strong>/100
+              </label>
+              <input type="range" id="slider-${s.id}"
+                     min="0" max="100"
+                     value="${s.judgeScore || 50}"
+                     oninput="updateSliderDisplay('${s.id}')"/>
+              <div class="score-display"
+                   id="scoreDisplay-${s.id}">
+                ${s.judgeScore !== null
+                  ? `Current Score: ${s.judgeScore}/100`
+                  : 'Not yet scored'}
+              </div>
+              <button class="submit-score-btn"
+                      onclick="submitJudgeScore('${s.id}')">
+                ✅ Submit Judge Score
+              </button>
+            </div>
+          ` : ''}
+        </div>
+    `).join("");
+
+    /* ── TABLE ── */
+    document.getElementById("leaderTable").innerHTML =
+      data.map((s, i) => `
+        <tr>
+          <td>${i < 3 ? medals[i] : i+1}</td>
+          <td><strong>${s.title}</strong>
+            ${s.isTop20 && phase===2
+              ? ' <span style="color:#FFD700">🏅</span>'
+              : ''}
+          </td>
+          <td>${s.leader}</td>
+          <td>${s.category}</td>
+          <td>👍 ${s.votes}</td>
+          <td>${phase === 2
+            ? (s.judgeScore !== null
+                ? `⭐ ${s.judgeScore}/100`
+                : '<em style="color:#ccc">Pending</em>')
+            : '<span style="color:#ccc">🔒 Phase 2</span>'
+          }</td>
+          <td>${phase === 2 && s.total !== null
+            ? `<strong>🏆 ${s.total}</strong>`
+            : '<span style="color:#ccc">—</span>'
+          }</td>
+        </tr>
+    `).join("");
+  };
+
+</script>
+</body>
+</html>
+
+							<script>
+                            	
+							</script>
+                        </body>
+                        </html>
+                    
